@@ -4,6 +4,7 @@ require.config({
         angular: '../../node_modules/angular/angular',
         angularRoute: '../../node_modules/angular-ui-router/build/angular-ui-router',
         angularMocks: '../../node_modules/angular-mocks/angular-mocks',
+        angularRequire: './lib/angular-require',
         apps: './app'
     },
     shim: {
@@ -64,9 +65,10 @@ require.config({
             }
         },
         'angularRoute': ['angular'],
+        'angularRequire': ['angular'],
         'angularMocks': {
             deps: ['angular'],
-            'exports': 'angular.mock'
+            exports: 'angular.mock'
         }
     },
     priority: [
@@ -77,11 +79,12 @@ require.config({
 require([
     'angular',
     'angularRoute',
+    'angularRequire',
     'apps'
 ], function(angular, angularRoute, apps) {
     console.log('start boot.js');
-    angular.module('main', ['ui.router', 'starter'])
-    angular.element().ready(function() {
+    angular.module('main', ['ui.router', 'starter']);
+    angular.element(document).ready(function() {
         angular.bootstrap(document, ['main'])
     })
 })

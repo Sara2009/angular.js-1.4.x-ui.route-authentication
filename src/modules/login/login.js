@@ -1,10 +1,11 @@
 'use strict';
 
 define([
-    'angular'
+    'apps'
 ], function(controllers, $log) {
     console.log('start login.js');
-    return controllers.module('starter').controller('LoginCtrl', ['$scope', '$log', function($scope, $log){
-        $log.log($scope)
-    }])
+    console.log(controllers);
+    return controllers.controller('LoginCtrl', ['$scope', '$log', 'data', function($scope, $log, data){
+        $log.log(data)
+    }]);
 });

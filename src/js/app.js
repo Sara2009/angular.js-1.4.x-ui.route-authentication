@@ -4,7 +4,7 @@ define([
     'angular'
 ], function(angular) {
 	console.log('start app.js');
-    return angular.module('starter', ['ui.router'])
+    return angular.module('starter', ['ngRequire', 'ui.router'])
 		.config(['$logProvider', function($logProvider){
 			$logProvider.debugEnabled(true);
 			/* override the default $log behavior with a decorator to enhace the log level
@@ -30,31 +30,33 @@ define([
 				return $delegate;
 			});*/
 		}])
-        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+        .config(['$stateProvider', '$urlRouterProvider', '$requireProvider', function($stateProvider, $urlRouterProvider, $requireProvider) {
 			/**
-			 * º”‘ÿ“¿¿µ
+			 * Âä†ËΩΩ‰æùËµñÔºåÂú®$stateProviderÁöÑresolve‰∏≠‰ΩøÁî®load: loadDeps(...)ÂÆåÊàê
 			 * @param deps
 			 * @returns {*[]}
 			 */
-			function loadDeps( deps ) {
+			/*function loadDeps( deps ) {
 				console.debug('start loadDeps');
 				return [
 					'$q' , function ( $q ) {
 						var def = $q.defer();
-						require( deps , function () {
+						require( deps , function (controller) {
+							//$controllerProvider.register('LoginCtrl', controller);
 							def.resolve();
 						} );
 						return def.promise;
 					}
 				];
-			}
+			}*/
             $stateProvider
                 .state('login', {
                     url: '/login',
                     templateUrl: 'modules/login/login.tmpl.html',
                     controller: 'LoginCtrl',
 					resolve: {
-						load: loadDeps(['../modules/login/login'])
+						deps: $requireProvider.requireJS(['../modules/login/login']),
+						data: $requireProvider.requireResolve(['../modules/login/data'])
 					}
                 })
         }]);
