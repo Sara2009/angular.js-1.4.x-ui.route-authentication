@@ -5,7 +5,10 @@ require.config({
         angularRoute: '../../node_modules/angular-ui-router/build/angular-ui-router',
         angularMocks: '../../node_modules/angular-mocks/angular-mocks',
         angularRequire: './lib/angular-require',
-        apps: './app'
+        angularCookies: '../../node_modules/angular-cookies/angular-cookies',
+        apps: './app',
+        services: './services',
+        constant: './constant'
     },
     shim: {
         'angular': {
@@ -69,21 +72,29 @@ require.config({
         'angularMocks': {
             deps: ['angular'],
             exports: 'angular.mock'
-        }
+        },
+        'angularCookies': ['angular']
     },
     priority: [
         "angular"
-    ]
+    ],
+    //urlArgs: 'bust='
+    urlArgs: "bust=" +  (new Date()).getTime()
 });
 
 require([
     'angular',
     'angularRoute',
     'angularRequire',
-    'apps'
-], function(angular, angularRoute, apps) {
+    'angularCookies',
+
+
+    'apps',
+    'constant',
+    'services/AuthenticationService'
+], function(angular) {
     console.log('start boot.js');
-    angular.module('main', ['ui.router', 'starter']);
+    angular.module('main', ['ui.router', 'ngRequire', 'ngCookies', 'starter']);
     angular.element(document).ready(function() {
         angular.bootstrap(document, ['main'])
     })
